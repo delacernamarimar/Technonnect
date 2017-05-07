@@ -14,7 +14,7 @@ import android.view.WindowManager;
 
 public class Splash extends Activity {
 
-    private static final int SPLASH_SHOW_TIME = 4800;
+    private static final int SPLASH_SHOW_TIME = 2000;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
