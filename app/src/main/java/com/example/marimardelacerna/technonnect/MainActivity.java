@@ -1,23 +1,29 @@
 package com.example.marimardelacerna.technonnect;
 
-import android.net.Uri;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private String password = "", SSID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,7 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment = null;
         Class fragmentClass = null;
-        fragmentClass = LM_Fragement.class;
+        fragmentClass = Home_Fragment.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
@@ -83,7 +89,39 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.add_item) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Connect a device!");
+//            dialog.setMessage("Title: ");
+            Context context = this;
+            LinearLayout layout = new LinearLayout(context);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+            final EditText inputSSID = new EditText(context);
+            inputSSID.setHint("WiFi SSID");
+            layout.addView(inputSSID);
+
+            final EditText inputPassword = new EditText(context);
+            inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            inputPassword.setHint("PASSWORD");
+            layout.addView(inputPassword);
+
+            dialog.setView(layout);
+
+            dialog.setPositiveButton("Connect", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SSID = inputSSID.getText().toString();
+                    password = inputPassword.getText().toString();
+                }
+            });
+            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
             return true;
         }
 
@@ -97,16 +135,14 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            fragmentClass = LM_Fragement.class;
-
-        } else if (id == R.id.nav_gallery) {
-            fragmentClass = PM_Fragement.class;
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.home) {
+            fragmentClass = Home_Fragment.class;
+        } else if (id == R.id.review) {
+            fragmentClass = Review_Fragment.class;
+        } else if (id == R.id.scheduler) {
+            fragmentClass = Scheduler_Fragment.class;
+        } else if (id == R.id.settings) {
+            fragmentClass = Settings_Fragment.class;
         } else if (id == R.id.nav_share) {
 
 
